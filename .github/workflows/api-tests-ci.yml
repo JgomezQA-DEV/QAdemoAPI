@@ -19,15 +19,17 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install pytest-html
 
-      - name: Run API tests with report generation
+      - name: Run API tests with HTML report generation
         run: |
           mkdir -p test-reports
-          pytest tests/ --junitxml=test-reports/results.xml
+          pytest tests/ --html=test-reports/report.html --self-contained-html
 
-      - name: Upload test results
+      - name: Upload HTML test report
         uses: actions/upload-artifact@v4
         with:
-          name: pytest-report
-          path: test-reports/results.xml
+          name: pytest-html-report
+          path: test-reports/report.html
